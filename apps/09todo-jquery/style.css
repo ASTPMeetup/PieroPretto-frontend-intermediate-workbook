@@ -59,3 +59,13 @@ input[type=text] {
     border-radius: 0px;
     width: 65%;
 }
+
+input[type="checkbox" i] {
+    float: left;
+    margin-left: 5px;
+}
+
+button[class="removeitem" i] {
+    float: right;
+    margin-right: 10px;
+}
