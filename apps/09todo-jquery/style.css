@@ -65,7 +65,7 @@ input[type="checkbox" i] {
     margin-left: 5px;
 }
 
-button[class="removeitem" i] {
+button {
     float: right;
     margin-right: 10px;
 }
