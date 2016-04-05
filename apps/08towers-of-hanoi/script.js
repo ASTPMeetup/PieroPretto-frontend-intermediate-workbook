@@ -15,7 +15,6 @@ $(document).ready(function() {
         block.detach();
         $(this).append(block);
         turns++;
-        console.log(turns);
       }
       else {
         $("#announce-game-won").text('Invalid move');
