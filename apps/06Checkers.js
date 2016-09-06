@@ -81,7 +81,7 @@ function Board() {
         return this.grid[row][column];
     }
 
-    this.jumpChecker = function(midpoint, startSpot, endSpot) {
+    this.jumpChecker = function(midpoint, startSpot) {
         var checkerToKill = this.checkers.indexOf(this.selectChecker(midpoint[0], midpoint[1]));
         this.checkers.splice(checkerToKill, 1);
         this.grid[midpoint[0]][midpoint[1]] = null;
@@ -124,7 +124,7 @@ function Game() {
             if (checker['rank'] == 'black') {
 
                 if ((Number(start) - Number(end) === 22 || Number(start) - Number(end) === 18) && this.board.grid[midpoint[0]][midpoint[1]] !== null) {
-                    this.board.jumpChecker(midpoint, startSpot, endSpot);
+                    this.board.jumpChecker(midpoint, startSpot);
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
                     this.board.checkForBlackKing(endSpot);
                 }
@@ -140,7 +140,7 @@ function Game() {
             if (checker['rank'] == 'white') {
 
                 if ((Number(end) - Number(start) === 22 || Number(end) - Number(start) === 18) && this.board.grid[midpoint[0]][midpoint[1]] !== null) {
-                    this.board.jumpChecker(midpoint, startSpot, endSpot);
+                    this.board.jumpChecker(midpoint, startSpot);
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
                     this.board.checkForWhiteKing(endSpot);
                 }
@@ -157,7 +157,7 @@ function Game() {
 
                 // kings can move backwards
                 if ((Math.abs(Number(end) - Number(start)) === 22 || Math.abs(Number(end) - Number(start)) === 18) && this.board.grid[midpoint[0]][midpoint[1]] !== null) {
-                    this.board.jumpChecker(midpoint, startSpot, endSpot);
+                    this.board.jumpChecker(midpoint, startSpot);
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
                 }
                 else if (Math.abs(Number(end) - Number(start)) === 11 || Math.abs(Number(end) - Number(start)) === 9) {
