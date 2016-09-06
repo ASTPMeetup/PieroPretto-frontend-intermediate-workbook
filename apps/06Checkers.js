@@ -5,13 +5,13 @@ var prompt = require('prompt');
 prompt.start();
 
 function Checker(color) {
- 
+
     if(color === 'white') {
-        this.symbol = String.fromCharCode(0x1263A);
+        this.symbol = String.fromCharCode(0x1263B);
         this.rank = 'white';
     }
     if (color === 'black') {
-        this.symbol = String.fromCharCode(0x1263B);
+        this.symbol = String.fromCharCode(0x1263A);
         this.rank = 'black';
     }
     if (color === 'blackKing') {
@@ -26,39 +26,33 @@ function Checker(color) {
 
 function Board() {
     this.grid = [];
-    // creates an 8x8 array, filled with null values
     this.createGrid = function() {
-        // loop to create the 8 rows
         for (var row = 0; row < 8; row++) {
             this.grid[row] = [];
-            // push in 8 columns of nulls
             for (var column = 0; column < 8; column++) {
                 this.grid[row].push(null);
             }
         }
     }
 
-    // prints out the board
     this.viewGrid = function() {
-        // add our column numbers
+
         var string = "  0 1 2 3 4 5 6 7\n";
         for (var row = 0; row < 8; row++) {
-            // we start with our row number in our array
             var rowOfCheckers = [row];
-            // a loop within a loop
+
             for (var column = 0; column < 8; column++) {
-                // if the location is "truthy" (contains a checker piece, in this case)
+
                 if (this.grid[row][column]) {
-                    // push the symbol of the check in that location into the array
+
                     rowOfCheckers.push(this.grid[row][column].symbol);
                 } else {
-                    // just push in a blank space
+
                     rowOfCheckers.push(' ');
                 }
             }
-            // join the rowOfCheckers array to a string, separated by a space
             string += rowOfCheckers.join(' ');
-            // add a 'new line'
+
             string += "\n";
         }
         console.log(string);
@@ -68,11 +62,11 @@ function Board() {
 
     this.createCheckers = function() {
         var white = [[0, 1], [0, 3], [0, 5], [0, 7],
-        [1, 0], [1, 2], [1, 4], [1, 6],
-        [2, 1], [2, 3], [2, 5], [2, 7]];
+                    [1, 0], [1, 2], [1, 4], [1, 6],
+                    [2, 1], [2, 3], [2, 5], [2, 7]];
         var black = [[5, 0], [5, 2], [5, 4], [5, 6],
-        [6, 1], [6, 3], [6, 5], [6, 7],
-        [7, 0], [7, 2], [7, 4], [7, 6]];
+                    [6, 1], [6, 3], [6, 5], [6, 7],
+                    [7, 0], [7, 2], [7, 4], [7, 6]];
 
         for (var i=0; i <= 11; i++) {
             this.grid[white[i][0]][white[i][1]] = new Checker('white');
@@ -87,30 +81,28 @@ function Board() {
         return this.grid[row][column];
     }
 
-
-    this.killChecker = function(position) {
-        var kill = this.checkers.indexOf(this.selectChecker(position[0], position[1]));
-        this.checkers.splice(kill, 1);
-        this.grid[position[0]][position[1]] = null;
+    this.jumpChecker = function(midpoint, startSpot, endSpot) {
+        var checkerToKill = this.checkers.indexOf(this.selectChecker(midpoint[0], midpoint[1]));
+        this.checkers.splice(checkerToKill, 1);
+        this.grid[midpoint[0]][midpoint[1]] = null;
+        this.grid[startSpot[0]][startSpot[1]] = null;
     }
 
-    this.blackKing = function(position) {
-        var kill = this.checkers.indexOf(this.selectChecker(position[0], position[1]));
-        this.checkers.splice(kill, 1);
-        this.grid[position[0]][position[1]] = null;
-        this.grid[position[0]][position[1]] = new Checker('blackKing');
-        this.checkers.push(this.grid[position[0]][position[1]]);
+    this.checkForBlackKing = function(endSpot) {
+      if(this.grid[endSpot[0]] === this.grid[0]) {
+        this.grid[endSpot[0]][endSpot[1]] = new Checker('blackKing');
+        this.checkers.push(this.grid[endSpot[0]][endSpot[1]]);
+      }
     }
 
-    this.whiteKing = function(position) {
-        var kill = this.checkers.indexOf(this.selectChecker(position[0], position[1]));
-        this.checkers.splice(kill, 1);
-        this.grid[position[0]][position[1]] = null;
-        this.grid[position[0]][position[1]] = new Checker('whiteKing');
-        this.checkers.push(this.grid[position[0]][position[1]]);
+    this.checkForWhiteKing = function(endSpot) {
+      if(this.grid[endSpot[0]] === this.grid[7]) {
+        this.grid[endSpot[0]][endSpot[1]] = new Checker('whiteKing');
+        this.checkers.push(this.grid[endSpot[0]][endSpot[1]]);
+      }
     }
-
 }
+
 function Game() {
 
     this.board = new Board();
@@ -122,78 +114,53 @@ function Game() {
     }
 
     this.moveChecker = function(start, end) {
-        var startNum = Number(start);
-        var endNum = Number(end);
-        var startSpot = start.split('');
-        var endSpot = end.split('');
-        var total = startNum + endNum;
-        var killPosition = (total / 2);
-        var stringIt = killPosition.toString();
-        var midpoint = stringIt.split("");
-        var checker = this.board.selectChecker(startSpot[0], startSpot[1]);
+
+      var startSpot = start.split('');
+      var endSpot = end.split('');
+      var midpoint = ((Number(start) + Number(end)) / 2).toString().split('');
+      var checker = this.board.selectChecker(startSpot[0], startSpot[1]);
+
         if (checker !== null && this.board.grid[endSpot[0]][endSpot[1]] === null) {
             if (checker['rank'] == 'black') {
-                if (startNum - endNum === 22 || startNum - endNum === 18) {
-                    if (this.board.grid[midpoint[0]][midpoint[1]] !== null) {
-                        this.board.killChecker(midpoint);
-                        this.board.grid[startSpot[0]][startSpot[1]] = null;
-                        this.board.grid[endSpot[0]][endSpot[1]] = checker;
-                        if (this.board.grid[endSpot[0]] === this.board.grid[0]) {
-                            this.board.whiteKing(endSpot);
-                        }
-                    }
-                    else {
-                        console.log('\n' + 'Invalid move! Try again!');
-                    }
+
+                if ((Number(start) - Number(end) === 22 || Number(start) - Number(end) === 18) && this.board.grid[midpoint[0]][midpoint[1]] !== null) {
+                    this.board.jumpChecker(midpoint, startSpot, endSpot);
+                    this.board.grid[endSpot[0]][endSpot[1]] = checker;
+                    this.board.checkForBlackKing(endSpot);
                 }
-                else if (startNum - endNum === 11 || startNum - endNum === 9) {
+                else if (Number(start) - Number(end) === 11 || Number(start) - Number(end) === 9) {
                     this.board.grid[startSpot[0]][startSpot[1]] = null;
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
-                    if (this.board.grid[endSpot[0]] === this.board.grid[0]) {
-                            this.board.whiteKing(endSpot);
-                    }
+                    this.board.checkForBlackKing(endSpot);
                 }
                 else {
                     console.log('\n' + 'Invalid move! Try again!');
                 }
             }
             if (checker['rank'] == 'white') {
-                if (endNum - startNum === 22 || endNum - startNum === 18) {
-                    if (this.board.grid[midpoint[0]][midpoint[1]] !== null) {
-                        this.board.killChecker(midpoint);
-                        this.board.grid[startSpot[0]][startSpot[1]] = null;
-                        this.board.grid[endSpot[0]][endSpot[1]] = checker;
-                        if (this.board.grid[endSpot[0]] === this.board.grid[7]) {
-                            this.board.blackKing(endSpot);
-                        }
-                    }
-                    else {
-                        console.log('\n' + 'Invalid move! Try again!');
-                    }
+
+                if ((Number(end) - Number(start) === 22 || Number(end) - Number(start) === 18) && this.board.grid[midpoint[0]][midpoint[1]] !== null) {
+                    this.board.jumpChecker(midpoint, startSpot, endSpot);
+                    this.board.grid[endSpot[0]][endSpot[1]] = checker;
+                    this.board.checkForWhiteKing(endSpot);
                 }
-                else if (endNum - startNum === 11 || endNum - startNum === 9) {
+                else if (Number(end) - Number(start) === 11 || Number(end) - Number(start) === 9) {
                     this.board.grid[startSpot[0]][startSpot[1]] = null;
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
-                    if (this.board.grid[endSpot[0]] === this.board.grid[7]) {
-                        this.board.blackKing(endSpot);
-                    }
+                    this.board.checkForWhiteKing(endSpot);
                 }
                 else {
                     console.log('\n' + 'Invalid move! Try again!');
                 }
             }
             if (checker['rank'] == 'king') {
-                if (Math.abs(endNum - startNum) === 22 || Math.abs(endNum - startNum) === 18) {
-                    if (this.board.grid[midpoint[0]][midpoint[1]] !== null) {
-                        this.board.killChecker(midpoint);
-                        this.board.grid[startSpot[0]][startSpot[1]] = null;
-                        this.board.grid[endSpot[0]][endSpot[1]] = checker;
-                    }
-                    else {
-                        console.log('\n' + 'Invalid move! Try again!');
-                    }
+
+                // kings can move backwards
+                if ((Math.abs(Number(end) - Number(start)) === 22 || Math.abs(Number(end) - Number(start)) === 18) && this.board.grid[midpoint[0]][midpoint[1]] !== null) {
+                    this.board.jumpChecker(midpoint, startSpot, endSpot);
+                    this.board.grid[endSpot[0]][endSpot[1]] = checker;
                 }
-                else if (Math.abs(endNum - startNum) === 11 || Math.abs(endNum - startNum) === 9) {
+                else if (Math.abs(Number(end) - Number(start)) === 11 || Math.abs(Number(end) - Number(start)) === 9) {
                     this.board.grid[startSpot[0]][startSpot[1]] = null;
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
                 }
@@ -206,6 +173,7 @@ function Game() {
             console.log('\n' + 'Invalid move! Try again!');
         }
     }
+
 }
 
 function getPrompt() {
