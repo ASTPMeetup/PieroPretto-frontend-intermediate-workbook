@@ -113,22 +113,28 @@ function Game() {
         this.board.createCheckers();
     }
 
-    this.moveChecker = function(start, end) {
+    this.checkForEmptySpot = function(spot) {
+      return this.board.grid[spot[0]][spot[1]] === null;
+    }
 
+    this.moveChecker = function(start, end) {
+      var startNum = Number(start);
+      var endNum = Number(end);
       var startSpot = start.split('');
       var endSpot = end.split('');
-      var midpoint = ((Number(start) + Number(end)) / 2).toString().split('');
+
+      var midpoint = ((startNum + endNum) / 2).toString().split('');
       var checker = this.board.selectChecker(startSpot[0], startSpot[1]);
 
-        if (checker !== null && this.board.grid[endSpot[0]][endSpot[1]] === null) {
+        if (checker !== null && this.checkForEmptySpot(endSpot)) {
             if (checker['rank'] == 'black') {
 
-                if ((Number(start) - Number(end) === 22 || Number(start) - Number(end) === 18) && this.board.grid[midpoint[0]][midpoint[1]] !== null) {
+                if ((startNum - endNum === 22 || startNum - endNum === 18) && !this.checkForEmptySpot(midpoint)) {
                     this.board.jumpChecker(midpoint, startSpot);
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
                     this.board.checkForBlackKing(endSpot);
                 }
-                else if (Number(start) - Number(end) === 11 || Number(start) - Number(end) === 9) {
+                else if (startNum - endNum === 11 || startNum - endNum === 9) {
                     this.board.grid[startSpot[0]][startSpot[1]] = null;
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
                     this.board.checkForBlackKing(endSpot);
@@ -139,12 +145,12 @@ function Game() {
             }
             if (checker['rank'] == 'white') {
 
-                if ((Number(end) - Number(start) === 22 || Number(end) - Number(start) === 18) && this.board.grid[midpoint[0]][midpoint[1]] !== null) {
+                if ((endNum - startNum === 22 || endNum - startNum === 18) && !this.checkForEmptySpot(midpoint)) {
                     this.board.jumpChecker(midpoint, startSpot);
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
                     this.board.checkForWhiteKing(endSpot);
                 }
-                else if (Number(end) - Number(start) === 11 || Number(end) - Number(start) === 9) {
+                else if (endNum - startNum === 11 || endNum - startNum === 9) {
                     this.board.grid[startSpot[0]][startSpot[1]] = null;
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
                     this.board.checkForWhiteKing(endSpot);
@@ -156,11 +162,11 @@ function Game() {
             if (checker['rank'] == 'king') {
 
                 // kings can move backwards
-                if ((Math.abs(Number(end) - Number(start)) === 22 || Math.abs(Number(end) - Number(start)) === 18) && this.board.grid[midpoint[0]][midpoint[1]] !== null) {
+                if ((Math.abs(endNum - startNum) === 22 || Math.abs(endNum - startNum) === 18) && !this.checkForEmptySpot(midpoint)) {
                     this.board.jumpChecker(midpoint, startSpot);
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
                 }
-                else if (Math.abs(Number(end) - Number(start)) === 11 || Math.abs(Number(end) - Number(start)) === 9) {
+                else if (Math.abs(endNum - startNum) === 11 || Math.abs(endNum - startNum) === 9) {
                     this.board.grid[startSpot[0]][startSpot[1]] = null;
                     this.board.grid[endSpot[0]][endSpot[1]] = checker;
                 }
