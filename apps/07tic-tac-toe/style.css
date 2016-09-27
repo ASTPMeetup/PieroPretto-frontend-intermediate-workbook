@@ -1,11 +1,37 @@
+body {
+  position: relative;
+  width: 100%;
+  min-height: auto;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('wallpaper.png');
+  filter: alpha(opacity=90);
+  /*text-align: center;*/
+  color: white;
+  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.game {
+  margin: auto;
+  width: 525px;
+  height: 525px;
+}
+
 div[data-cell] {
-    width: 100px;
-    height: 100px;
-    background-color: #f2f2f2;
+    width: 150px;
+    height: 150px;
+    background: -moz-linear-gradient(top, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
     float: left;
     border: 1px solid #808080;
     font-size: 100px;
+    font-family: "Verdana";
     text-align: center;
+    text-shadow: 5px 5px #000000;
+    margin: 10px;
+    opacity: 0.9;
 }
 
 .row {
@@ -14,5 +40,26 @@ div[data-cell] {
 
 #announce-winner {
     clear: both;
-    font-size: 50px;
+}
+
+hr {
+  border-color: #f2f2f2;
+  height: 2px;
+  max-width: 200px;
+}
+
+h1 {
+    text-transform: uppercase;
+}
+
+h1, p {
+  text-align: center;
+}
+
+h1, #announce-winner {
+  margin-top: 50px;
+  font-size: 30px;
+  font-weight: 900;
+  text-align: center;
+  text-shadow: 2px 2px #000000;
 }

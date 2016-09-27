@@ -20,7 +20,7 @@ function printStacks() {
 
 function restartGame() {
     moveCount = 0;
-    var stacks = {
+    stacks = {
     a: [4, 3, 2, 1],
     b: [],
     c: []
@@ -28,32 +28,29 @@ function restartGame() {
     return stacks;
 }
 
-function movePiece(startStack, endStack) {
-    if (isLegal(startStack,endStack)) {
-        stacks[endStack].push(stacks[startStack].pop());
-        moveCount++;
-    }
-    else {
-        return false;
-    }
-}
-
 function isLegal(startStack, endStack) {
-    if (stacks[endStack].length === 0) {
+
+    if (stacks[endStack].length == 0) {
         return true;
     }
-    if (stacks[startStack].pop() < stacks[endStack].pop()) {
+    var indexStart = stacks[startStack].length - 1;
+    var indexEnd = stacks[endStack].length - 1;
+    if (stacks[startStack][indexStart] < stacks[endStack][indexEnd]) {
         return true;
     }
     else {
-        console.log("Invalid move! Try again!");
+        console.log("Invalid move! Try again!\n" );
         return false;
     }
 
 }
 
-function checkForWin(startStack, endStack) {
-    if (stacks.b.length === 4) {
+function checkForWin() {
+    console.log(stacks.a.length);
+    
+    if (stacks['b'].length === 4 || stacks['c'].length === 4) {
+
+        printStacks();
         console.log("You won with " + moveCount + " moves!\n" 
         + "The miminum amount of moves possible is 15.\n" 
         + "Restarting game.." + "\n");
@@ -63,12 +60,23 @@ function checkForWin(startStack, endStack) {
     else {
         return false;
     }
-
 }
 
 function towersOfHanoi(startStack, endStack) {
-    movePiece(startStack, endStack);
-    checkForWin();
+    //regular expression to determine if input is a,b, or c.
+    var validEntry = /^(a|b|c)$/;
+
+    if ((validEntry.exec(startStack)) && (validEntry.exec(endStack))) {
+
+        if (isLegal(startStack,endStack)) {
+            stacks[endStack].push(stacks[startStack].pop());
+            moveCount++;
+        }
+        checkForWin();
+    }
+    else {
+      console.log("Invalid entry again!\n" );  
+    }
 }
 
 function getPrompt() {
@@ -116,7 +124,7 @@ if (typeof describe !== 'undefined') {
             stacks = { a: [1], b: [4, 3, 2], c: [] }
             assert.equal(checkForWin(), false);
         });
-    })
+    });
 } else {
 
     getPrompt();

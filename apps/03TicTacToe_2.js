@@ -4,13 +4,6 @@ var assert = require('assert');
 var prompt = require('prompt');
 prompt.start();
 
-
-// Needs to keep players from overlapping each other's marks.
-
-// Needs to print "It's a tie!" and restart game if board fills up.
-
-// Needs to restart game if a player wins.
-
 var board = [
     [' ', ' ', ' '],
     [' ', ' ', ' '],
@@ -29,45 +22,74 @@ function printBoard() {
     console.log('2 ' + board[2].join(' | '));
 }
 
-function horizontalWin() {
-    if ((board[0][0] === playerTurn && board[0][1] === playerTurn && board[0][2] === playerTurn) ||
-      (board[1][0] === playerTurn && board[1][1] === playerTurn && board[1][2] === playerTurn) ||
-      (board[2][0] === playerTurn && board[2][1] === playerTurn && board[2][2] === playerTurn)) {
-        return true;
-    }
-    else {
-      return false;
-    }
-}
+// include 'draw' function
 
-function verticalWin() {
-    if ((board[0][0] === playerTurn && board[1][0] === playerTurn && board[2][0] === playerTurn) ||
-      (board[0][1] === playerTurn && board[1][1] === playerTurn && board[2][1] === playerTurn) ||
-      (board[0][2] === playerTurn && board[1][2] === playerTurn && board[2][2] === playerTurn)) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
 
-function diagonalWin() {
-    if ((board[0][0] === playerTurn && board[1][1] === playerTurn && board[2][2] === playerTurn) ||
-      (board[0][2] === playerTurn && board[1][1] === playerTurn && board[2][0] === playerTurn)) {
-        return true;
-    }
-    else {
-      return false;
-    }
-}
+
+// function horizontalWin() {
+//     if (board[0][0] === playerTurn && board[0][1] === playerTurn && board[0][2] === playerTurn) {
+//         return true;
+//     }
+//     if (board[1][0] === playerTurn && board[1][1] === playerTurn && board[1][2] === playerTurn) {
+//         return true;
+//     }
+//     if (board[2][0] === playerTurn && board[2][1] === playerTurn && board[2][2] === playerTurn) {
+//         return true;
+//     }
+// }
+
+// function verticalWin() {
+//     if (board[0][0] === playerTurn && board[1][0] === playerTurn && board[2][0] === playerTurn) {
+//         return true;
+//     }
+//     if (board[0][1] === playerTurn && board[1][1] === playerTurn && board[2][1] === playerTurn) {
+//         return true;
+//     }
+//     if (board[0][2] === playerTurn && board[1][2] === playerTurn && board[2][2] === playerTurn) {
+//         return true;
+//     }
+// }
+
+// function diagonalWin() {
+//     if (board[0][0] === playerTurn && board[1][1] === playerTurn && board[2][2] === playerTurn) {
+//         return true;
+//     }
+//     if (board[0][2] === playerTurn && board[1][1] === playerTurn && board[2][0] === playerTurn) {
+//         return true;
+//     }
+// }
+
+// function checkForWin() {
+//     if (horizontalWin() || verticalWin() || diagonalWin()) {
+//         console.log('Player ' + playerTurn + ' Won!');
+//         return true;
+//     }
+// }
+var winCombo = [[board[0][0], board[0][1], board[0][2]],
+                [board[1][0], board[1][1], board[1][2]],
+                [board[2][0], board[2][1], board[2][2]],
+                [board[0][0], board[1][0], board[2][0]],
+                [board[0][1], board[1][1], board[2][1]],
+                [board[0][2], board[1][2], board[2][2]],
+                [board[0][0], board[1][1], board[2][2]],
+                [board[0][2], board[1][1], board[2][0]]];
 
 function checkForWin() {
-    if (horizontalWin() || verticalWin() || diagonalWin()) {
-        printBoard();
-        restartGame();
-        console.log('Player ' + playerTurn + ' Won!\n' + 'Restarting game..' + '\n');
-        return true;
+  // for loop doesn't work because mocha test for verticalWin, horizontalWin, etc., which cannot be written in a dry manner.
+
+  for (var i = 0; i < winCombo.length; i++) {
+    console.log(winCombo[i][0]);
+
+    if (winCombo[i][0] === playerTurn && winCombo[i][1] === playerTurn && winCombo[i][2] === playerTurn) {
+      printBoard();
+      restartGame();
+      console.log('Player ' + playerTurn + ' Won!\n' + 'Restarting game!!!' + '\n');
+      return true;
     }
+    else {
+      return false;
+    }
+  }
 }
 
 function restartGame() {
@@ -94,17 +116,20 @@ function nextPlayer() {
     return playerTurn;
 }
 
+
 function ticTacToe(row, column) {
+    //makes sure input does not overlap previous inputs.
     if (board[row][column] === 'X' || board[row][column] === 'O') {
-        console.log("Invalid entry. Try again.." + "\n");
+        console.log("Invalid entry. Try again..");
+        nextPlayer();
     }
     else {
         board[row][column] = playerTurn;
         moveCount++;
-        checkForWin();
-        checkForTie();
-        nextPlayer();
     }
+    checkForWin();
+    checkForTie();
+    nextPlayer();
 }
 
 function getPrompt() {
@@ -148,5 +173,6 @@ if (typeof describe !== 'undefined') {
     });
 } else {
 
-        getPrompt();
+    getPrompt();
+
 }

@@ -1,14 +1,17 @@
 'use strict';
 
-$(document).ready(function() {
+$(document).ready(function(){
+  // $('[data-stack]').hover(function(){ $(this).css('background-color', '#33a0ff');},
+  //                         function(){ $(this).css('background-color', '#f0f8ff');});
   var block = null;
   var turns = 0;
   $('[data-stack]').on('click', function(){
-    $("#announce-game-won").empty();
+    $("#announcer").empty();
     if (block === null) {
-      block = $(this).children().last();
+      block = $(this).children().last().detach();
     }
     else {
+      block.fadeTo(500, 1);
       var blockValue = Number(block.attr('data-block'));
       var moveToValue = Number($(this).children().last().attr('data-block'));
       if (blockValue < moveToValue || !moveToValue){
@@ -17,7 +20,7 @@ $(document).ready(function() {
         turns++;
       }
       else {
-        $("#announce-game-won").text('Invalid move');
+        $("#announcer").text('Invalid move');
       }
       block = null;
       checkForWin();
@@ -25,18 +28,15 @@ $(document).ready(function() {
   });
 
   function checkForWin() {
-    var stack2 = $('[data-stack="2"]').children().length;
-    var stack3 = $('[data-stack="3"]').children().length;
-    if (stack2 === 4 || stack3 === 4) {
-      $("#announce-game-won").text('You won in '+turns+' turns!');
+    if ($('[data-stack="2"]').children().length === 4 || $('[data-stack="3"]').children().length === 4) {
+      $("#announcer").text('You won in '+turns+' turns!');
 
-      //restart game
+      //restart game by arranging blocks by size and appending to starting data-stack
       var $stacks = $('[data-stack]');
       $stacks.find('[data-block]').sort(function(a,b) {
-        //arrange by size
         return +b.getAttribute('data-block') - +a.getAttribute('data-block');
-      })
-      .appendTo('[data-stack="1"]');
+      }).appendTo('[data-stack="1"]');
+
       turns = 0;
     }
   }

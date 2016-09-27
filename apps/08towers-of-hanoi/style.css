@@ -1,3 +1,24 @@
+body {
+  position: relative;
+  width: 100%;
+  min-height: auto;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('./wallpaper.png');
+  filter: alpha(opacity=90);
+  /*text-align: center;*/
+  color: white;
+  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#game {
+  margin: auto;
+  width: 525px;
+}
+
 [data-stack] {
     display: flex;
     justify-content: left;
@@ -5,36 +26,64 @@
     -webkit-align-items: center;
     display: -webkit-flex;
     height: 101px;
-    background-color: aliceblue;
+    background-color: #f0f8ff;
     margin: 25px;
+    opacity: 0.9;
+}
+
+[data-stack] {
+  height: 150px;
 }
 
 [data-block] {
-    width: 25px;
+    width: 37.5px;
     float: left;
 }
 
 [data-block="25"] {
-    height: 25px;
-    background-color: blue;
+    height: 37.5px;
+    background-color:#00004d;
 }
 
 [data-block="50"] {
-    height: 50px;
-    background-color: green;
+    height: 75px;
+    background-color: #004d00;
 }
 
 [data-block="75"] {
-    height: 75px;
-    background-color: red;
+    height: 112.5px;
+    background-color:#990000;
 }
 
 [data-block="100"] {
-    height: 100px;
-    background-color: yellow;
+    height: 150px;
+    background-color: #e6e600;
 }
 
-#announce-game-won {
-    font-size: 50px;
-    text-align: center;
+
+#announcer {
+    clear: both;
+    margin-top: 50px;
+}
+
+hr {
+  border-color: #f2f2f2;
+  height: 2px;
+  max-width: 200px;
+}
+
+h1 {
+    text-transform: uppercase;
+    margin-top: 100px;
+}
+
+h1, p {
+  text-align: center;
+}
+
+h1, #announcer {
+  font-size: 30px;
+  font-weight: 900;
+  text-align: center;
+  text-shadow: 2px 2px #000000;
 }

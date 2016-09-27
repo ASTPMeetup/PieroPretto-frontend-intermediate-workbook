@@ -7,19 +7,27 @@ prompt.start();
 
 function pigLatin(word) {
 
+    //scrubs data
+
    word = word.toLowerCase();
    var firstLetter = word[0];
- 
-    if(firstLetter == 'a'
-      || firstLetter == 'e'
-      || firstLetter == 'i'
-      || firstLetter == 'o'
-      || firstLetter == 'u'){
-         var pigLatinWord = word + "yay";
-         return pigLatinWord;
-    }
 
-    var vowelIndex = -1; 
+   //checks to see if first letter is a vowel. If so, just add 'yay' to the end of the word
+ 
+    // if(firstLetter == 'a'
+    //   || firstLetter == 'e'
+    //   || firstLetter == 'i'
+    //   || firstLetter == 'o'
+    //   || firstLetter == 'u'){
+    //      var pigLatinWord = word + "yay";
+    //      return pigLatinWord;
+    // }
+
+    // Runs through each letter in a word until the first vowel is found. This script uses vowelIndex as a counter variable and an index tracker for all characters before the first vowel.
+        // 'If' statement checks for index of particular vowel & checks to make sure another vowel has already been found.
+        // If the word does not have the particular vowel the OR operator is used to store the false value of -1 in vowelIndex variable.
+
+    var vowelIndex = -1;
 
     if ( ( word.indexOf('a') > -1 && word.indexOf('a') < vowelIndex ) || vowelIndex === -1 ) {
     vowelIndex = word.indexOf('a');
@@ -40,15 +48,27 @@ function pigLatin(word) {
     vowelIndex = word.indexOf('y');
     }
 
+    //the firstPart variable stores all characters before the vowelIndex and stores it in firstPart.
+    //the restWord variable stores all characters after the vowelindex and stores it in restWord.
+
+
     var firstPart = word.slice(0, vowelIndex);
     var restWord = word.slice(vowelIndex, word.length);
+
+    //if first character is a vowel then 'yay' is simply added to the end.
 
     if (vowelIndex === 0) {
         return word + "yay";
     }
+
+    //if vowel is found after the first character then two storage variables manipulate the word to add 'yay' following all characters before first vowel
+
     else if (vowelIndex > 0) {
         return restWord + firstPart + "ay";
     }
+
+    // if no vowel is found, the word is deemed invalid because no word without a vowel exists in the English dictionary.
+
     else {
         return "This word is invalid";
     }

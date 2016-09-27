@@ -17,8 +17,7 @@ function isEven(number) {
     // should return true is number is even (divisible by 2)
     if (number % 2 === 0) {
         return true;
-    } 
-    else {
+    } else {
         return false;
     }
 }

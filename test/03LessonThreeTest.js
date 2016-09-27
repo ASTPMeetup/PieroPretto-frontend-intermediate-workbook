@@ -34,7 +34,7 @@ function arrayJoin(arr) {
 
 function stringSplit(str) {
     // should return an array of the words in a string, delimited by a space
-    return str.split(" ");
+    return solution.split(" ");
 }
 
 

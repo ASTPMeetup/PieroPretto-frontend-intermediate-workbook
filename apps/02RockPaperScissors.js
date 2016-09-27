@@ -16,8 +16,8 @@ function rockPaperScissors(hand1, hand2) {
 
    function compHand() {
         if (random === 1) {return "rock";}
-        if (random === 2) {return "scissors";}
-        if (random === 3) {return "paper";}
+        else if (random === 2) {return "scissors";}
+        else {return "paper";}
     }
 
     if (hand1 === "") {
@@ -37,7 +37,9 @@ function rockPaperScissors(hand1, hand2) {
     if(hand1 === hand2) {
         return "It's a tie!";
     }
-    else if ((hand1 === "rock" && hand2 === "scissors") || (hand1 === "scissors" && hand2 === "paper") || (hand1 === "paper" && hand2 === "rock")) {
+    else if ((hand1 === "rock" && hand2 === "scissors") ||
+     (hand1 === "scissors" && hand2 === "paper") ||
+     (hand1 === "paper" && hand2 === "rock")) {
         return "Hand one wins!";
     }
     else {

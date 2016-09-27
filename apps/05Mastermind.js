@@ -21,6 +21,8 @@ function generateSolution() {
         var randomIndex = getRandomInt(0, letters.length);
         solution += letters[randomIndex];
     }
+
+    return solution;
 }
 
 function getRandomInt(min, max) {
@@ -39,13 +41,12 @@ function generateHint(solution, guess) {
     }
     var correctLetters = 0;
     for (var i=0; i <= 3; i++) {
-        if (solutionArray[i] === guess[0] || solutionArray[i] === guess[1] || solutionArray[i] === guess[2] || solutionArray[i] === guess[3]) {
-            correctLetters++; 
-            solutionArray[i] = null;
+        if (guessArray.indexOf(solutionArray[i]) > -1) {
+                correctLetters++;
+                solutionArray[i] = null;
         }
     }
     hint = colors.red(correctLetterLocations) + "-" + colors.white(correctLetters);
-    console.log(hint);
     return hint;
 }
 
@@ -56,14 +57,28 @@ function mastermind(guess) {
     else {
         generateHint(solution, guess);
     }
-    board.push(hint + guess);
+    board.push(hint + ' ' + guess);
+
+    if (board.length === 10) {
+      console.log("You ran out of turns! The solution was " + solution);
+
+    }
+
+    return guess;
 }
 
 
 function getPrompt() {
     prompt.get(['guess'], function (error, result) {
-        console.log( mastermind(result['guess']) );
+
+        console.log('\n' + 'Guess:');
+        console.log( mastermind(result['guess']) + '\n');
+
+        console.log('Board:');
         printBoard();
+
+        console.log('\n' + 'Solution: ' + solution + '\n');
+
         getPrompt();
     });
 }

@@ -8,11 +8,11 @@ function Car(color) {
     this.color = color;
 }
 
-function Garage(size) {
+function Garage(size) {                       
     this.size = size;
     this.cars = [];
     this.add = function(car) {
-        if (this.cars.length < this.size) {
+        if (this.cars.length <= this.size) {
             this.cars.push(car);
         }
         else {
@@ -30,6 +30,7 @@ function Garage(size) {
         }
     }
 }
+var redCar, blueCar, greenCar, yellowCar, twoCarGarage, threeCarGarage
 
 // The Car class should take one parameter, color. Set the passed in color to be an attribute of the object
 // The Garage should also take one parameter, size. The size will be an integer, and set it to an attribute
@@ -40,9 +41,7 @@ function Garage(size) {
 
 // Your code here
 
-// Tests
-
-var redCar, blueCar, greenCar, yellowCar, twoCarGarage, threeCarGarage
+//Tests
 
 it('should be able to instatiate car objects', function () {
     redCar = new Car('red');
