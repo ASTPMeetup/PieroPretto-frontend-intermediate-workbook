@@ -23,7 +23,8 @@ $(document).ready(function() {
     function grabBlogAndComments() {
 		$('a').on('click', function(e){
 			e.preventDefault();
-			var dataUrl = $(this).data('url');
+			// var dataUrl = $(this).data('url');
+			var dataUrl = $(this).attr('href');
 			$.ajax(dataUrl, {
 				success: function(gist) {
 					var mdContent = gist.files["post.md"].content;

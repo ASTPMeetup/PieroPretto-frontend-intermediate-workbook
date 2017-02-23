@@ -29,30 +29,27 @@ function restartGame() {
 }
 
 function isLegal(startStack, endStack) {
+  //regular expression to determine if input is a,b, or c.
+  var validEntry = /^(a|b|c)$/;
 
-    if (stacks[endStack].length == 0) {
-        return true;
-    }
-    var indexStart = stacks[startStack].length - 1;
-    var indexEnd = stacks[endStack].length - 1;
-    if (stacks[startStack][indexStart] < stacks[endStack][indexEnd]) {
-        return true;
-    }
-    else {
-        console.log("Invalid move! Try again!\n" );
-        return false;
-    }
+  var indexStart = stacks[startStack].length - 1;
+  var indexEnd = stacks[endStack].length - 1;
 
+  if ((stacks[startStack][indexStart] < stacks[endStack][indexEnd] || !stacks[endStack][indexEnd]) &&
+     ((validEntry.exec(startStack)) && (validEntry.exec(endStack)))) {
+       return true;
+  }
+  else {
+      console.log("Invalid move! Try again!\n" );
+      return false;
+  }
 }
 
 function checkForWin() {
-    console.log(stacks.a.length);
-    
     if (stacks['b'].length === 4 || stacks['c'].length === 4) {
-
         printStacks();
-        console.log("You won with " + moveCount + " moves!\n" 
-        + "The miminum amount of moves possible is 15.\n" 
+        console.log("You won with " + moveCount + " moves!\n"
+        + "The miminum amount of moves possible is 15.\n"
         + "Restarting game.." + "\n");
         restartGame();
         return true;
@@ -63,20 +60,15 @@ function checkForWin() {
 }
 
 function towersOfHanoi(startStack, endStack) {
-    //regular expression to determine if input is a,b, or c.
-    var validEntry = /^(a|b|c)$/;
 
-    if ((validEntry.exec(startStack)) && (validEntry.exec(endStack))) {
-
-        if (isLegal(startStack,endStack)) {
-            stacks[endStack].push(stacks[startStack].pop());
-            moveCount++;
-        }
-        checkForWin();
-    }
-    else {
-      console.log("Invalid entry again!\n" );  
-    }
+  if (isLegal(startStack,endStack)) {
+      stacks[endStack].push(stacks[startStack].pop());
+      moveCount++;
+      checkForWin();
+  }
+  else {
+    console.log("Invalid entry again!\n" );
+  }
 }
 
 function getPrompt() {

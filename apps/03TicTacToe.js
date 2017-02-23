@@ -64,6 +64,7 @@ function diagonalWin() {
 function checkForWin() {
     if (horizontalWin() || verticalWin() || diagonalWin()) {
         printBoard();
+        // process.exit();
         restartGame();
         console.log('Player ' + playerTurn + ' Won!\n' + 'Restarting game..' + '\n');
         return true;
@@ -88,14 +89,8 @@ function checkForTie() {
     }
 }
 
-
-function nextPlayer() {
-    playerTurn = (playerTurn === 'X') ? 'O' : 'X';
-    return playerTurn;
-}
-
 function ticTacToe(row, column) {
-    if (board[row][column] === 'X' || board[row][column] === 'O') {
+    if (board[row][column] !== ' ') {
         console.log("Invalid entry. Try again.." + "\n");
     }
     else {
@@ -103,7 +98,7 @@ function ticTacToe(row, column) {
         moveCount++;
         checkForWin();
         checkForTie();
-        nextPlayer();
+        playerTurn = (playerTurn === 'X') ? 'O' : 'X';
     }
 }
 

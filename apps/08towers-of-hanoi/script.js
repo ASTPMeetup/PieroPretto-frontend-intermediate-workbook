@@ -1,8 +1,7 @@
 'use strict';
 
 $(document).ready(function(){
-  // $('[data-stack]').hover(function(){ $(this).css('background-color', '#33a0ff');},
-  //                         function(){ $(this).css('background-color', '#f0f8ff');});
+
   var block = null;
   var turns = 0;
   $('[data-stack]').on('click', function(){

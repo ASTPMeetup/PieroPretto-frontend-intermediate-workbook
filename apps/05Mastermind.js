@@ -33,21 +33,18 @@ function generateHint(solution, guess) {
     var solutionArray = solution.split('');
     var guessArray = guess.split('');
     var correctLetterLocations = 0;
+    var correctLetters = 0;
     for (var i=0; i <= 3; i++) {
         if(solutionArray[i] === guessArray[i]) {
             correctLetterLocations++;
             solutionArray[i] = null;
         }
-    }
-    var correctLetters = 0;
-    for (var i=0; i <= 3; i++) {
         if (guessArray.indexOf(solutionArray[i]) > -1) {
-                correctLetters++;
-                solutionArray[i] = null;
+            correctLetters++;
+            solutionArray[i] = null;
         }
     }
-    hint = colors.red(correctLetterLocations) + "-" + colors.white(correctLetters);
-    return hint;
+    return colors.red(correctLetterLocations) + "-" + colors.white(correctLetters);
 }
 
 function mastermind(guess) {
@@ -55,12 +52,12 @@ function mastermind(guess) {
         return 'You guessed it!';
     }
     else {
-        generateHint(solution, guess);
+        var hint = generateHint(solution, guess);
     }
     board.push(hint + ' ' + guess);
 
     if (board.length === 10) {
-      console.log("You ran out of turns! The solution was " + solution);
+      return "You ran out of turns! The solution was " + solution;
 
     }
 

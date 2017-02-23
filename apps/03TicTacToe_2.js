@@ -22,49 +22,6 @@ function printBoard() {
     console.log('2 ' + board[2].join(' | '));
 }
 
-// include 'draw' function
-
-
-
-// function horizontalWin() {
-//     if (board[0][0] === playerTurn && board[0][1] === playerTurn && board[0][2] === playerTurn) {
-//         return true;
-//     }
-//     if (board[1][0] === playerTurn && board[1][1] === playerTurn && board[1][2] === playerTurn) {
-//         return true;
-//     }
-//     if (board[2][0] === playerTurn && board[2][1] === playerTurn && board[2][2] === playerTurn) {
-//         return true;
-//     }
-// }
-
-// function verticalWin() {
-//     if (board[0][0] === playerTurn && board[1][0] === playerTurn && board[2][0] === playerTurn) {
-//         return true;
-//     }
-//     if (board[0][1] === playerTurn && board[1][1] === playerTurn && board[2][1] === playerTurn) {
-//         return true;
-//     }
-//     if (board[0][2] === playerTurn && board[1][2] === playerTurn && board[2][2] === playerTurn) {
-//         return true;
-//     }
-// }
-
-// function diagonalWin() {
-//     if (board[0][0] === playerTurn && board[1][1] === playerTurn && board[2][2] === playerTurn) {
-//         return true;
-//     }
-//     if (board[0][2] === playerTurn && board[1][1] === playerTurn && board[2][0] === playerTurn) {
-//         return true;
-//     }
-// }
-
-// function checkForWin() {
-//     if (horizontalWin() || verticalWin() || diagonalWin()) {
-//         console.log('Player ' + playerTurn + ' Won!');
-//         return true;
-//     }
-// }
 var winCombo = [[board[0][0], board[0][1], board[0][2]],
                 [board[1][0], board[1][1], board[1][2]],
                 [board[2][0], board[2][1], board[2][2]],
@@ -110,18 +67,11 @@ function checkForTie() {
     }
 }
 
-
-function nextPlayer() {
-    playerTurn = (playerTurn === 'X') ? 'O' : 'X';
-    return playerTurn;
-}
-
-
 function ticTacToe(row, column) {
     //makes sure input does not overlap previous inputs.
     if (board[row][column] === 'X' || board[row][column] === 'O') {
         console.log("Invalid entry. Try again..");
-        nextPlayer();
+        playerTurn = (playerTurn === 'X') ? 'O' : 'X';
     }
     else {
         board[row][column] = playerTurn;

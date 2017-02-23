@@ -13,7 +13,7 @@ function loopIt() {
 
 function onlyEvens() {
     var arrayEven = [];
-    for (var i = 1; i < 100; i++) {
+    for (var i = 1; i < 50; i++) {
         arrayEven.push(i * 2);
     }
     return arrayEven;

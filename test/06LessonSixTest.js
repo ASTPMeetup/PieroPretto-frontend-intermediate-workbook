@@ -6,6 +6,7 @@ var assert = require('assert');
 
 function Car(color) {
     this.color = color;
+    console.log('This car is ' + this.color);
 }
 
 function Garage(size) {                       
@@ -14,8 +15,10 @@ function Garage(size) {
     this.add = function(car) {
         if (this.cars.length <= this.size) {
             this.cars.push(car);
+            console.log('This garage size === ' + this.size);
         }
         else {
+            console.log("Not enough space!");
             return "Not enough space!";
         }
     }
@@ -23,8 +26,10 @@ function Garage(size) {
         for (var i=0; i <= this.cars.length; i++) {
             if (this.cars[i] === car) {
                 this.cars.splice(i, 1);
+                console.log('This garage size === ' + this.size);
             }
             else {
+                console.log("That car isn't here!");
                 return "That car isn't here!";
             }
         }

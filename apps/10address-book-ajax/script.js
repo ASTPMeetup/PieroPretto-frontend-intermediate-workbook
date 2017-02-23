@@ -1,1 +1,45 @@
-"use strict";function populateUsers(){$.ajax("https://reqres-api.herokuapp.com/api/users",{success:function(a){$("tbody").empty(),_.each(a,function(a){var b="<td>"+a.id+"</td>",c="<td>"+a.first_name+"</td>",d="<td>"+a.last_name+"</td>",e='<td><a href="#" data-id="'+a.id+'">view</a></td>',f="<tr>"+b+c+d+e+"</tr>";$("tbody").append(f)}),viewUserDetails()}})}function viewUserDetails(){$("a").on("click",function(){var a=$(this).data("id"),b="https://reqres-api.herokuapp.com/api/users/",c=b+a;$.ajax(c,{success:function(a){var b="<h3>"+a.first_name+" "+a.last_name+"</h3>",c="<h4>"+a.occupation+"</h4>",d="<p>"+a.phone+"</p>",e="<p>"+a.address+"</p>",f='<img src="'+a.avatar+'">';$("#details").html(b+c+d+e+f)}})})}$(document).ready(function(){populateUsers()});
+'use strict';
+
+$(document).ready(function() {
+	populateUsers();
+});
+
+	function populateUsers() {
+		$.ajax('https://reqres-api.herokuapp.com/api/users', {
+			success: function(response) {
+				$('tbody').empty();
+				 _.each(response, function(user) {
+				 	var idCell = '<td>'+user.id+'</td>';
+				 	var firstNameCell = '<td>'+user.first_name+'</td>';
+				 	var lastNameCell = '<td>'+user.last_name+'</td>';
+				 	var urlCell = '<td><a href="#" data-id="'+user.id+'">view</a></td>';
+
+				 	var str = '<tr>' + idCell + firstNameCell + lastNameCell + urlCell + '</tr>';
+				 	$('tbody').append(str);
+				});
+
+				viewUserDetails();
+			}
+		});
+	}
+
+	function viewUserDetails() {
+
+		$('a').on('click', function() {
+			var data_id = $(this).data('id');
+			var url = 'https://reqres-api.herokuapp.com/api/users/';
+			var urlPlusID = url + data_id;
+
+			$.ajax(urlPlusID, {
+				success: function(user) {
+					var nameCell = '<h3>'+user.first_name+ ' ' +user.last_name+'</h3>';
+					var occupationCell = '<h4>'+user.occupation+'</h4>';
+					var phoneNumberCell = '<p>'+user.phone+'</p>';
+					var addressCell = '<p>'+user.address+'</p>';
+					var avatarCell = '<img src="'+user.avatar+'">';
+
+    				$('#details').html(nameCell + occupationCell + phoneNumberCell + addressCell + avatarCell);
+    			}
+	    	});
+		});
+	}

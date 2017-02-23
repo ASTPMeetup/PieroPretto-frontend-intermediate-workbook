@@ -10,30 +10,34 @@ var jobTypes = {
 };
 
 
-function CrewMember(name, job, specialSkill) {
-  this.name = name;
-  this.job = job;
-  this.specialSkill = specialSkill;
-  this.ship = null;
-  this.jobType = jobTypes[this.job];
-  this.enterShip = function(someShip) {
+class CrewMember {
+  constructor (name, job, specialSkill) {
+    this.name = name;
+    this.job = job;
+    this.specialSkill = specialSkill;
+    this.ship = null;
+    this.jobType = jobTypes[this.job];
+    this.enterShip = (someShip) => {
     this.ship = someShip;
     someShip.crew.push(this);
+    }
   }
 }
 
-function Ship(name, type, ability) {
-  this.name = name;
-  this.type = type;
-  this.ability = ability;
-  this.crew = [];
-  this.missionStatement = function() {
-    for (var i = 0; i < this.crew.length; i++) {
-      if (this.crew[i].jobType === this.type) {
-        return this.ability;
+class Ship {
+  constructor (name, type, ability) {
+    this.name = name;
+    this.type = type;
+    this.ability = ability;
+    this.crew = [];
+    this.missionStatement = ()=> {
+      for (var member of this.crew) {
+        if (member.jobType === this.type) {
+          return this.ability;
+        }
       }
+      return "Can't perform a mission yet.";
     }
-    return "Can't perform a mission yet.";
   }
 }
 
@@ -83,11 +87,3 @@ if (typeof describe !== 'undefined') {
     })
   })
 }
-
-var Josh = new CrewMember();
-
-Josh.job 
-
-Josh.enterShip(Apollo)
-
-Apollo.crew.push(Josh)

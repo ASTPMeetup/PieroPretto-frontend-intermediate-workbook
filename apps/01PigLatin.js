@@ -10,18 +10,6 @@ function pigLatin(word) {
     //scrubs data
 
    word = word.toLowerCase();
-   var firstLetter = word[0];
-
-   //checks to see if first letter is a vowel. If so, just add 'yay' to the end of the word
- 
-    // if(firstLetter == 'a'
-    //   || firstLetter == 'e'
-    //   || firstLetter == 'i'
-    //   || firstLetter == 'o'
-    //   || firstLetter == 'u'){
-    //      var pigLatinWord = word + "yay";
-    //      return pigLatinWord;
-    // }
 
     // Runs through each letter in a word until the first vowel is found. This script uses vowelIndex as a counter variable and an index tracker for all characters before the first vowel.
         // 'If' statement checks for index of particular vowel & checks to make sure another vowel has already been found.
