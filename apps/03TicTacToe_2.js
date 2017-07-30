@@ -1,17 +1,17 @@
 'use strict';
 
-var assert = require('assert');
-var prompt = require('prompt');
+const assert = require('assert');
+const prompt = require('prompt');
 prompt.start();
 
-var board = [
+let board = [
     [' ', ' ', ' '],
     [' ', ' ', ' '],
     [' ', ' ', ' ']
 ];
 
-var playerTurn = 'X';
-var moveCount = 0;
+let playerTurn = 'X';
+let moveCount = 0;
 
 function printBoard() {
     console.log('   0  1  2');
@@ -22,35 +22,43 @@ function printBoard() {
     console.log('2 ' + board[2].join(' | '));
 }
 
-var winCombo = [[board[0][0], board[0][1], board[0][2]],
-                [board[1][0], board[1][1], board[1][2]],
-                [board[2][0], board[2][1], board[2][2]],
-                [board[0][0], board[1][0], board[2][0]],
-                [board[0][1], board[1][1], board[2][1]],
-                [board[0][2], board[1][2], board[2][2]],
-                [board[0][0], board[1][1], board[2][2]],
-                [board[0][2], board[1][1], board[2][0]]];
-
 function checkForWin() {
-  // for loop doesn't work because mocha test for verticalWin, horizontalWin, etc., which cannot be written in a dry manner.
+  
+  // winnningCombos variable contains all 9 winning move combinations. 
+  // Each array inside winningCombos contains 3 spots a playerTurn (ex: 'X' or '0") must exist in simultanouesly to win the game.
+  const winningCombos = [   
+                            [board[0][0], board[0][1], board[0][2]],
+                            [board[1][0], board[1][1], board[1][2]],
+                            [board[2][0], board[2][1], board[2][2]],
+                            [board[0][0], board[1][0], board[2][0]],
+                            [board[0][1], board[1][1], board[2][1]],
+                            [board[0][2], board[1][2], board[2][2]],
+                            [board[0][0], board[1][1], board[2][2]],
+                            [board[0][2], board[1][1], board[2][0]] 
+                        ];
 
-  for (var i = 0; i < winCombo.length; i++) {
-    if (winCombo[i][0] === playerTurn 
-        && winCombo[i][1] === playerTurn 
-        && winCombo[i][2] === playerTurn) {
-          printBoard();
-          restartGame();
-          console.log('Player ' + playerTurn + ' Won!\n' + 'Restarting game!!!' + '\n');
-          return true;
-    }
-    else {
-      return false;
+  for (var i = 0; i < winningCombos.length; i++) {
+    if (winningCombos[i][0] === playerTurn && 
+        winningCombos[i][1] === playerTurn && 
+        winningCombos[i][2] === playerTurn) {
+
+            console.log('\n Player ' + playerTurn + ' Won!\n');
+            printBoard();
+
+            console.log('\n Restarting game.. \n');
+            restartGame();
+
+            return true;
     }
   }
+
+  return false;
 }
 
 function restartGame() {
         moveCount = 0;
+
+        //recreates the board variable as it originally existed.
         board = [
         [' ', ' ', ' '],
         [' ', ' ', ' '],
@@ -60,26 +68,28 @@ function restartGame() {
 }
 
 function checkForTie() {
+    //if 9 valid moves have been made, it's safe to assume a tie because only 9 board "spots" exist.
     if (moveCount === 9) {
+        console.log("\n It's a tie!\n");
         printBoard();
         restartGame();
-        console.log("It's a tie!\n" + "Restarting game.." + "\n");
+        console.log("\n Restarting game.. \n");
     }
 }
 
 function ticTacToe(row, column) {
-    //makes sure input does not overlap previous inputs.
+
+    //making sure playerTurns do not overlap previous inputs.
     if (board[row][column] === 'X' || board[row][column] === 'O') {
         console.log("Invalid entry. Try again..");
-        playerTurn = (playerTurn === 'X') ? 'O' : 'X';
     }
     else {
         board[row][column] = playerTurn;
         moveCount++;
+        checkForWin();
+        checkForTie();
+        playerTurn = (playerTurn === 'X') ? 'O' : 'X';
     }
-    checkForWin();
-    checkForTie();
-    nextPlayer();
 }
 
 function getPrompt() {
