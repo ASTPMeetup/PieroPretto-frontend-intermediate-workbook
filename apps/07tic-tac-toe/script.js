@@ -1,10 +1,12 @@
 'use strict';
+var test;
 
 $(document).on('ready', function() {
 	var playerTurn = "X";
     var turns = 0;
     $('[data-cell]').on('click', function() {
         var $this = $(this);
+        console.log($('[data-cell]'));
         if ($this.text() === "") {
     	   	$($this).text(playerTurn);
           $('#announce-winner').empty();

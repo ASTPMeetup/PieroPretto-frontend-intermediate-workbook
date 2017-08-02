@@ -8,7 +8,6 @@ prompt.start();
 function pigLatin(word) {
 
     //scrubs data
-
    word = word.toLowerCase();
 
     // Runs through each letter in a word until the first vowel is found. This script uses vowelIndex as a counter variable and an index tracker for all characters before the first vowel.
@@ -19,10 +18,10 @@ function pigLatin(word) {
 
     if ( ( word.indexOf('a') > -1 && word.indexOf('a') < vowelIndex ) || vowelIndex === -1 ) {
     vowelIndex = word.indexOf('a');
-    } 
+    }
     if ( ( word.indexOf('e') > -1 && word.indexOf('e') < vowelIndex ) || vowelIndex === -1 ) {
     vowelIndex = word.indexOf('e');
-    } 
+    }
     if ( ( word.indexOf('i') > -1 && word.indexOf('i') < vowelIndex ) || vowelIndex === -1 ) {
     vowelIndex = word.indexOf('i');
     }
@@ -79,20 +78,20 @@ if (typeof describe !== 'undefined') {
 
     describe('#pigLatin()', function () {
         it('should translate a simple word', function () {
-            assert.equal(pigLatin('car'), 'arcay');
-            assert.equal(pigLatin('dog'), 'ogday');
+            assert.strictEqual(pigLatin('car'), 'arcay');
+            assert.strictEqual(pigLatin('dog'), 'ogday');
         });
         it('should translate a complex word', function () {
-            assert.equal(pigLatin('create'), 'eatecray');
-            assert.equal(pigLatin('valley'), 'alleyvay');
+            assert.strictEqual(pigLatin('create'), 'eatecray');
+            assert.strictEqual(pigLatin('valley'), 'alleyvay');
         });
         it('should attach "yay" if word begins with vowel', function () {
-            assert.equal(pigLatin('egg'), 'eggyay');
-            assert.equal(pigLatin('emission'), 'emissionyay');
+            assert.strictEqual(pigLatin('egg'), 'eggyay');
+            assert.strictEqual(pigLatin('emission'), 'emissionyay');
         });
         it('should auto lowercase word before translation', function () {
-            assert.equal(pigLatin('HeLlO'), 'ellohay');
-            assert.equal(pigLatin('RoCkEt'), 'ocketray');
+            assert.strictEqual(pigLatin('HeLlO'), 'ellohay');
+            assert.strictEqual(pigLatin('RoCkEt'), 'ocketray');
         });
     });
 } else {

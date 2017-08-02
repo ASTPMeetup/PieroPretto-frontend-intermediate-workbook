@@ -161,7 +161,7 @@ function Game() {
       var startNum = Number(start);
       var endNum = Number(end);
 
-      var midpoint = ((startNum + endNum) / 2).toString().split('');
+      var midpoint = ((parseInt(end) + parseInt(start)) / 2).toString();
       var checker = this.board.selectChecker(start[0], start[1]);
 
         if (checker !== null && this.checkForEmptySpot(end)) {

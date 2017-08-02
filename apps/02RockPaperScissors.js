@@ -8,42 +8,55 @@ prompt.start();
 
 function randomInt(low, high) {
     return Math.floor(Math.random() * (high - low) + low);
+}
+
+function compHand() {
+    const random = randomInt(1,4);
+
+    if (random === 1) {
+        return "rock";
     }
-
-function rockPaperScissors(hand1, hand2) {
-
-    var random = randomInt(1,4);
-
-   function compHand() {
-        if (random === 1) {return "rock";}
-        else if (random === 2) {return "scissors";}
-        else {return "paper";}
+    else if (random === 2) {
+        return "scissors";
     }
+    else {
+        return "paper";
+    }
+}
 
+function validateInput(handOne, handTwo){
+    const validEntry = /^(rock|paper|scissors)$/;
+    return validEntry.exec(handOne) && validEntry.exec(handTwo);
+}
+
+function rockPaperScissors(hand1, hand2){
     if (hand1 === "") {
         hand1 = compHand();
+        console.log('Hand 1 chose ' + hand1 + '!');
     }
     if (hand2 === "") {
         hand2 = compHand();
+        console.log('Hand 2 chose ' + hand2 + '!');
     }
 
     hand1 = hand1.toLowerCase();
     hand2 = hand2.toLowerCase();
     
-    //test computer output
-    console.log(hand1);
-    console.log(hand2);
-
-    if(hand1 === hand2) {
-        return "It's a tie!";
-    }
-    else if ((hand1 === "rock" && hand2 === "scissors") ||
-     (hand1 === "scissors" && hand2 === "paper") ||
-     (hand1 === "paper" && hand2 === "rock")) {
-        return "Hand one wins!";
+    if(validateInput(hand1, hand2)) {
+        if(hand1 === hand2) {
+            return "It's a tie!";
+        }
+        else if ((hand1 === "rock" && hand2 === "scissors") ||
+                 (hand1 === "scissors" && hand2 === "paper") ||
+                 (hand1 === "paper" && hand2 === "rock")) {
+            return "Hand one wins!";
+        }
+        else {
+            return "Hand two wins!";
+        }
     }
     else {
-        return "Hand two wins!";
+        return 'invalid input(s). Please try again.';
     }
 }
 

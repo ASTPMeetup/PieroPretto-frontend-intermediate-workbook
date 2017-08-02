@@ -2,6 +2,7 @@
 
 $(document).ready(function() {
 	populateUsers();
+	viewUserDetails();
 });
 
 	function populateUsers() {
@@ -25,10 +26,12 @@ $(document).ready(function() {
 
 	function viewUserDetails() {
 
-		$('a').on('click', function() {
+		$(document).on('click', 'a', function() {
 			var data_id = $(this).data('id');
+			console.log(data_id);
 			var url = 'https://reqres-api.herokuapp.com/api/users/';
 			var urlPlusID = url + data_id;
+			console.log(urlPlusID);
 
 			$.ajax(urlPlusID, {
 				success: function(user) {

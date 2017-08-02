@@ -35,13 +35,13 @@ function checkForWin() {
   // for loop doesn't work because mocha test for verticalWin, horizontalWin, etc., which cannot be written in a dry manner.
 
   for (var i = 0; i < winCombo.length; i++) {
-    console.log(winCombo[i][0]);
-
-    if (winCombo[i][0] === playerTurn && winCombo[i][1] === playerTurn && winCombo[i][2] === playerTurn) {
-      printBoard();
-      restartGame();
-      console.log('Player ' + playerTurn + ' Won!\n' + 'Restarting game!!!' + '\n');
-      return true;
+    if (winCombo[i][0] === playerTurn 
+        && winCombo[i][1] === playerTurn 
+        && winCombo[i][2] === playerTurn) {
+          printBoard();
+          restartGame();
+          console.log('Player ' + playerTurn + ' Won!\n' + 'Restarting game!!!' + '\n');
+          return true;
     }
     else {
       return false;

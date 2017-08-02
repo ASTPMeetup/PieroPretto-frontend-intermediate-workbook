@@ -6,7 +6,7 @@ $(document).ready(function(){
   var turns = 0;
   $('[data-stack]').on('click', function(){
     $("#announcer").empty();
-    if (block === null) {
+    if (!block) {
       block = $(this).children().last().detach();
     }
     else {
